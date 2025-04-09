@@ -1,0 +1,505 @@
+
+inicio:
+
+	mov #65498, r3
+	mov #65500, r1
+	mov 16099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #28
+	bne inicio
+	jmp lmp
+	org 16100
+	 dab '-DIGITE O MES DE NASCIMENTO-'
+
+lmp:
+
+	mov #65535, r1
+
+lmpa:
+
+	clr r2
+	clr (r1)
+	dec r1
+	cmp r1,#65499
+	bne lmpa
+	mov #65500 r1
+	jmp retorna
+
+
+retorna:
+
+	clr (r3)
+
+teclado:
+	
+	tst (r3)
+	beq teclado
+	cmp 65499 #13
+	beq sv1
+	mov 65499,(r1)
+	inc r1
+	jmp retorna
+
+sv1:
+
+	dec r1
+	cmp r1, #65501
+	beq dezena
+	jmp uni
+
+dezena:
+
+	mov #48, r0
+	sub r0, (r1)
+	mov (r1), r4
+	clr (r1)
+	dec r1
+	sub r0, (r1)
+	mov (r1), r0
+	clr (r1)
+	mov #10, r1
+	JSR R7,_S_MULTIPLICAR
+	add r1, r4
+	jmp msg2
+
+uni:
+
+	mov #48, r0
+	sub r0, (r1)
+	mov (r1), r4
+	jmp msg2
+
+msg2:	
+
+	mov 17099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #28
+	bne msg2
+	jmp lmp2
+	org 17100
+	 dab '-DIGITE O DIA DO NASCIMENTO-'
+
+lmp2:
+
+	mov #65535, r1
+
+lmpa2:
+
+	clr r2
+	clr (r1)
+	dec r1
+	cmp r1,#65499
+	bne lmpa2
+	mov #65500, r1
+	mov #65498, r3
+	jmp retorna2
+
+retorna2:
+
+	clr (r3)
+
+teclado2:
+	
+	tst (r3)
+	beq teclado2
+	cmp 65499 #13
+	beq sv2
+	mov 65499,(r1)
+	inc r1
+	jmp retorna2
+
+sv2:
+
+	dec r1
+	cmp r1, #65501
+	beq dezena1
+	jmp uni1
+
+dezena1:
+
+	mov #48, r0
+	sub r0, (r1)
+	mov (r1), r5
+	clr (r1)
+	dec r1
+	sub r0, (r1)
+	mov (r1), r0
+	clr (r1)
+	mov #10, r1
+	JSR R7,_S_MULTIPLICAR
+	add r1, r5
+	jmp cmperro
+uni1:
+
+	mov #48, r0
+	sub r0, (r1)
+	mov (r1), r5
+	jmp cmperro
+
+cmperro:
+
+	cmp r5, #31
+	ble cmpsig1
+	jmp errod
+
+cmpsig1:
+
+	cmp r4, #1
+	beq cmpd1
+	jmp cmpsig2
+
+cmpd1:
+
+	cmp r5, #20
+	bgt aquario
+	jmp capricornio
+
+aquario:
+
+	mov 18099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #20
+	bne aquario
+	jmp limpainicio
+	org 18100
+	 dab '-VOCE E DE AQUARIO-'
+
+cmpsig2:
+
+	cmp r4, #2
+	beq cmperro2
+	jmp cmpsig3
+
+cmperro2:
+
+	cmp r5, #30
+	blt cmpd2
+	jmp errod
+
+cmpd2:
+
+	cmp r5, #18
+	bgt peixes
+	jmp aquario
+
+peixes:
+
+	mov 19099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #18
+	bne peixes
+	jmp limpainicio
+	org 19100
+	 dab '-VOCE E DE PEIXES-'
+
+cmpsig3:
+
+	cmp r4, #3
+	beq cmpd3
+	jmp cmpsig4
+
+cmpd3:
+
+	cmp r5, #19
+	bgt aries
+	jmp peixes
+
+aries:
+
+	mov 20099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #18
+	bne aries
+	jmp limpainicio
+	org 20100
+	 dab '-VOCE E DE ARIES-'
+
+cmpsig4:
+
+	cmp r4, #4
+	beq cmpd4
+	jmp cmpsig5
+
+cmpd4:
+
+	cmp r5, #20
+	bgt touro
+	jmp aries
+
+touro:
+
+	mov 21099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #18
+	bne touro
+	jmp limpainicio
+	org 21100
+	 dab '-VOCE E DE TOURO-'
+
+
+cmpsig5:
+
+	cmp r4, #5
+	beq cmpd5
+	jmp cmpsig6
+
+cmpd5:
+
+	cmp r5, #20
+	bgt gemeos
+	jmp touro
+
+gemeos:
+
+	mov 22099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #19
+	bne gemeos
+	jmp limpainicio
+	org 22100
+	 dab '-VOCE E DE GEMEOS-'
+
+
+
+cmpsig6:
+
+	cmp r4, #6
+	beq cmpd6
+	jmp cmpsig7
+
+cmpd6:
+
+	cmp r5, #20
+	bgt cancer
+	jmp gemeos
+
+cancer:
+
+	mov 23099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #18
+	bne cancer
+	jmp limpainicio
+	org 23100
+	 dab '-VOCE E DE CANCER-'
+
+cmpsig7:
+
+	cmp r4, #7
+	beq cmpd7
+	jmp cmpsig8
+
+cmpd7:
+
+	cmp r5, #21
+	bgt leao
+	jmp cancer
+
+leao:
+
+	mov 24099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #17
+	bne leao
+	jmp limpainicio
+	org 24100
+	 dab '-VOCE E DE LEAO-'
+
+cmpsig8:
+
+	cmp r4, #8
+	beq cmpd8
+	jmp cmpsig9
+
+cmpd8:
+
+	cmp r5, #22
+	bgt virgem
+	jmp leao
+
+virgem:
+
+	mov 25099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #19
+	bne virgem
+	jmp limpainicio
+	org 25100
+	 dab '-VOCE E DE VIRGEM-'
+
+cmpsig9:
+
+	cmp r4, #9	
+	beq cmpd9
+	jmp cmpsig10
+
+cmpd9:
+
+	cmp r5, #22
+	bgt libra
+	jmp virgem
+
+libra:
+
+	mov 26099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #18
+	bne libra
+	jmp limpainicio
+	org 26100
+	 dab '-VOCE E DE LIBRA-'
+
+cmpsig10:
+
+	cmp r4, #10
+	beq cmpd10
+	jmp cmpsig11
+
+cmpd10:
+
+	cmp r5, #22
+	bgt escorpiao	
+	jmp libra
+
+escorpiao:
+
+	mov 30099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #24
+	bne escorpiao
+	dec r4
+	jmp limpainicio
+	org 30100
+	 dab '-VOCE E DE ESCORPIAO-'
+
+cmpsig11:
+
+	cmp r4, #11
+	beq cmpd11
+	jmp cmpsig12
+
+cmpd11:
+
+	cmp r5, #21
+	bgt sagitario
+	jmp escorpiao
+
+sagitario:
+
+	mov 28099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #21
+	bne sagitario
+	dec r4
+	jmp limpainicio
+	org 28100
+	 dab '-VOCE E DE SAGITARIO-'
+
+cmpsig12:
+
+	cmp r4, #12
+	beq cmpd12
+	jmp errom
+
+cmpd12:
+
+	cmp r5, #21
+	bgt capricornio
+	jmp aquario
+
+capricornio:
+
+	mov 29099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #23
+	bne capricornio
+	dec r4
+	jmp limpainicio
+	org 29100
+	 dab '-VOCE E DE CAPRICORNIO-'
+
+errom:
+
+	mov 15099(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #28
+	bne errom
+	jmp limpainicio
+	org 15100
+	 dab '-DATA DO MES INVALIDA-'
+
+errod:
+
+	mov 15299(r2), r1
+	mov r1 ,65500(r2)
+	inc r2
+	cmp r2, #28
+	bne errod
+	jmp limpainicio
+	org 15300
+	 dab '-DATA DO DIA INVALIDA-'
+	
+limpainicio:
+
+	mov #65535, r1
+
+lmpini:
+	clr r2
+	dec r1
+	cmp r1,#65499
+	bne lmpini
+	mov #65500 r1
+	jmp inicio
+
+_S_MULTIPLICAR:
+          MOV R2,-(R6)          ; salva R2 na pilha
+          MOV R3,-(R6)          ; salva R3 na pilha
+          MOV #16,R2            ; inicializa contador
+          CLR R3                ; limpa R3
+__INICIO_LACO: 
+          ROR R1                ; lsb do multiplicad. em C
+          BCC __NAO_SOMAR       ; se era zero, nao soma
+          ADD R0,R3             ; acumula multiplicando
+                                ; no produto parcial
+__NAO_SOMAR:
+          ROR R3                ; lsb de R3 vai para C
+          BCC __FIM_LACO        ; se era zero, sai do laco
+          ADD #32768,R1         ; soma 1 ao bit 15 de R1
+__FIM_LACO:
+          SOB R2,__INICIO_LACO  ; decrementa contador e
+                                ; repete se <> 0
+          MOV R3,R0             ; resultado de R3 para R0
+          MOV (R6)+,R3          ; restaura R3
+          MOV (R6)+,R2          ; restaura R2
+          TST R0                ; se R0 <> 0
+          BNE __ALERTA_ESTOURO  ; vai indicar estouro
+          CCC V                 ; senao, desliga V
+          RTS R7                ; retorna ao progr. princ.
+__ALERTA_ESTOURO:
+          SCC V                 ; liga indicador: estouro
+          RTS R7                ; retorna ao ponto de chamada
+
+fim:
+	hlt
+
+	
+	
+
+	
+
+		

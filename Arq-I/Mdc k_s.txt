@@ -1,0 +1,23 @@
+Larissa Espelocin
+Arq. I
+
+0: load r0 28
+1: load r1 29
+2: sub r2 r0 r1 / r2= 4-5
+3: bzero  15
+4: bneg   11
+5: sub r0 r0 r1
+6: bzero  15  
+7: sub r2 r0 r1
+8: bneg   10
+9: branch  5
+10:sub r1 r1 r0 
+11:bzero  15
+12:sub r2 r1 r0
+13:bneg    5
+14:branch  10
+15:halt
+ 
+ 
+28: A R0 = 4
+29: B R1 = 5 

@@ -1,0 +1,25 @@
+Arq I // Larissa E.
+	
+	CLO
+	MOV BL,C0
+ler:
+	IN 00
+	MOV [BL],AL
+	CMP AL,0D
+	JZ oi
+	INC BL
+	JMP ler
+
+oi:
+	MOV CL,E0
+
+escrever:
+	MOV AL,[BL]
+	MOV [CL],AL
+	DEC BL
+	INC CL
+	CMP BL,BF
+	JZ fim
+	JMP escrever
+fim:
+	END

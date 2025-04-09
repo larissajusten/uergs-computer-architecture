@@ -1,0 +1,39 @@
+Arq. I // Larissa E.
+
+	CLO
+	MOV BL,C0
+oi:
+	IN 00
+	MOV[BL],AL
+	CMP AL,0D
+	JZ aqui
+	INC BL
+	JMP oi
+
+aqui:
+	MOV AL,[C0]
+	MOV BL,[C3]
+	SUB BL,30
+	ADD AL,BL
+	MOV DL,[C1]
+	MOV CL,[C4]
+	SUB CL,30
+	ADD DL,CL	
+	CMP DL,39
+	JS here
+	SUB DL,0A
+	ADD AL,1
+
+here:
+	CMP AL,39
+	JS guarda
+	SUB AL,0A
+	MOV CL,31
+	MOV [C6],CL
+	
+guarda:
+	MOV [C7],AL
+	MOV [C8],DL
+	END
+
+	

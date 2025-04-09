@@ -1,0 +1,419 @@
+_start:
+	MOV #h8000, R6
+	jmp inicioI
+
+prox:	
+	leTeclado2:
+		mov #65498, r0
+		clr (r0)
+		tst (r0)
+		beq -4
+		cmp 65499, #13
+		beq limp
+
+limp:	jsr r7,_S_LIMPA_VISOR_RAPIDA
+
+	mov #msg_enter, R0
+	mov #0, R1
+	jsr R7, escrever_visor
+	
+	leTeclado:
+		mov #65498, r0
+		clr (r0)
+		tst (r0)
+		beq -4
+		cmp 65499, #13
+		beq limpa
+
+limpa:	jsr r7,_S_LIMPA_VISOR_RAPIDA
+		jmp inicioI
+	hlt
+
+inicioI:
+	MOV #msg_dia, R0
+	MOV #0, R1
+	JSR R7, escrever_visor
+	
+	leTecladoD:
+		mov #65498, r0
+		mov #65505, r1
+		retornaD:
+		clr (r0)
+		tst (r0)
+		beq -4
+		mov 65499, (r1)
+		cmp 65499, #13
+		beq salvaDia
+		inc r1
+		bne retornaD
+		
+	salvaDia:
+		CLR R4
+		DEC R1
+		cmp r1, #65505 
+		beq joao
+		SUB #48, (R1)
+		MOV (R1), R4
+		DEC R1
+		SUB #48, (R1)
+		MOV (R1), R0
+		MOV #10, R1
+		JSR R7, _S_MULTIPLICAR
+		ADD R1, R4
+		BR Mes1
+		joao:
+		SUB #48, (R1)
+		ADD (R1), R4
+		
+	Mes1:
+		cmp r4, #0
+		bgt Mes2 
+		jmp invDia
+	Mes2:
+		MOV #msg_mes, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+
+	leTecladoM:
+		mov #65498, r0
+		mov #65505, r1
+		retornaM:
+		clr (r0)
+		tst (r0)
+		beq -4
+		mov 65499, (r1)
+		cmp 65499, #13
+		beq salvaMes
+		inc r1
+		bne retornaM
+		
+	salvaMes:
+		clr R5
+		dec R1
+		cmp r1, #65505 
+		beq joao2
+		sub #48, (R1)
+		mov (R1), R5
+		dec R1
+		sub #48, (R1)
+		mov (R1), R0
+		mov #10, R1
+		jsr R7, _S_MULTIPLICAR
+		add R1, R5
+		br comparacoes
+		joao2:
+		sub #48, (R1)
+		add (R1), R5
+		
+
+	comparacoes:
+		cmp r5, #0
+		ble invMes
+		cmp r5, #13
+		bge invMes
+		jmp comparacoesM
+
+invMes:		mov #msg_invalidaMes, R0
+		mov #0, R1
+		jsr R7, escrever_visor
+		jmp prox
+
+	comparacoesM:
+		cmp r5, #1
+		beq jmpUm 
+		cmp r5, #2
+		beq jmpDois
+		cmp r5, #3
+		beq jmpTres
+		cmp r5, #4
+		beq jmpQuatro
+		cmp r5, #5
+		beq jmpCinco
+		cmp r5, #6
+		beq jmpSeis
+		cmp r5, #7
+		beq jmpSete
+		cmp r5, #8
+		beq jmpOito
+		cmp r5, #9
+		beq jmpNove
+		cmp r5, #10
+		beq jmpDez
+		cmp r5, #11
+		beq jmpOnze
+		cmp r5, #12
+		beq jmpDoze
+jmpUm: jmp mUm
+jmpDois: jmp mDois
+jmpTres: jmp mTres
+jmpQuatro: jmp mQuatro
+jmpCinco: jmp mCinco
+jmpSeis: jmp mSeis
+jmpSete: jmp mSete
+jmpOito: jmp mOito
+jmpNove: jmp mNove
+jmpDez: jmp mDez
+jmpOnze: jmp mOnze
+jmpDoze: jmp mDoze
+
+invDia:		mov #msg_invalidaDia, R0
+		mov #0, R1
+		jsr R7, escrever_visor
+		jmp prox
+
+
+	CAPRICORNIO:
+		MOV #msg_capricornio, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+	mUm:
+		cmp r4, #20
+		ble CAPRICORNIO
+		cmp r4, #31
+		ble AQUARIO
+		jmp invDia
+	AQUARIO:
+		MOV #msg_aquario, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mDois:
+		cmp r4, #19
+		ble AQUARIO
+		cmp r4, #28
+		ble PEIXES
+		jmp invDia
+	PEIXES:
+		MOV #msg_peixes, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mTres:
+		cmp r4, #20
+		ble PEIXES
+		cmp r4, #31
+		ble ARIES
+		jmp invDia
+	ARIES:
+		MOV #msg_aries, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mQuatro:
+		cmp r4, #20
+		ble ARIES
+		cmp r4, #30
+		ble TOURO
+		jmp invDia
+	TOURO:
+		MOV #msg_touro, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mCinco:
+		cmp r4, #20
+		ble TOURO
+		cmp r4, #31
+		ble GEMEOS
+		jmp invDia
+	GEMEOS:
+		MOV #msg_gemeos, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mSeis:
+		cmp r4, #20
+		ble GEMEOS
+		cmp r4, #30
+		ble CANCER
+		jmp invDia
+	CANCER:
+		MOV #msg_cancer, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mSete:
+		cmp r4, #21
+		ble CANCER
+		cmp r4, #31
+		ble LEAO
+		jmp invDia
+	LEAO:
+		MOV #msg_leao, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mOito:
+		cmp r4, #22
+		ble LEAO
+		cmp r4, #31
+		ble VIRGEM
+		jmp invDia
+	VIRGEM:
+		MOV #msg_virgem, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mNove:
+		cmp r4, #22
+		ble VIRGEM
+		cmp r4, #30
+		ble LIBRA
+		jmp invDia
+	LIBRA:
+		MOV #msg_libra, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mDez:
+		cmp r4, #22
+		ble LIBRA
+		cmp r4, #31
+		ble ESCORPIAO
+		jmp invDia
+	ESCORPIAO:
+		MOV #msg_escorpiao, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mOnze:
+		cmp r4, #21
+		ble ESCORPIAO
+		cmp r4, #30
+		ble SAGITARIO
+		jmp invDia
+	SAGITARIO:
+		MOV #msg_sagitario, R0
+		MOV #0, R1
+		JSR R7, escrever_visor
+		JMP prox
+
+	mDoze:
+		cmp r4, #21
+		ble SAGITARIO
+		cmp r4, #31
+		ble CAPRICORNI
+		jmp invDia
+CAPRICORNI:     jmp CAPRICORNIO
+
+
+escrever_visor:
+	ADD #65500,R1         ; transforma indice do LED em endereco de E/S no visor
+	MOV R3,-(R6)          ; salva R3 para usar na subrotina (V12 - 25/09/2014)
+volta_escrever:
+	MOV -1(R0),R3         ; coloca 2 caracteres em R3, comecando em "endmensagem-1"
+	AND #255,R3           ; zera byte mais significativo da palavra lida
+	CMP R3,#0             ; testa se terminou mensagem (achou 1 byte com 0s binários)
+	BNE escreve_led	      ; se nao terminou, vai exibir caractere lido
+	MOV (R6)+,R3          ; restaura valor original do R3
+	RTS R7                ; retorna ao ponto de chamada
+
+escreve_led:
+	MOV R3,(R1)           ; move para o visor
+	INC R0                ; aponta R0 para o proximo byte da mensagem
+	INC R1                ; aponta R1 para o proximo LED no visor
+	BEQ fim_visor		; fim do visor - volta ao LED 00
+	BR volta_escrever	; volta a escrever no visor
+fim_visor:
+	MOV #65500,R1         ; aponta para primeiro LED
+	BR volta_escrever	; volta a escrever no visor
+
+_S_MULTIPLICAR:
+          MOV R2,-(R6)          ; salva R2 na pilha
+          MOV R3,-(R6)          ; salva R3 na pilha
+          MOV #16,R2            ; inicializa contador
+          CLR R3                ; limpa R3
+__INICIO_LACO: 
+          ROR R1                ; lsb do multiplicad. em C
+          BCC __NAO_SOMAR       ; se era zero, nao soma
+          ADD R0,R3             ; acumula multiplicando
+                                ; no produto parcial
+__NAO_SOMAR:
+          ROR R3                ; lsb de R3 vai para C
+          BCC __FIM_LACO        ; se era zero, sai do laco
+          ADD #32768,R1         ; soma 1 ao bit 15 de R1
+__FIM_LACO:
+          SOB R2,__INICIO_LACO  ; decrementa contador e
+                                ; repete se <> 0
+          MOV R3,R0             ; resultado de R3 para R0
+          MOV (R6)+,R3          ; restaura R3
+          MOV (R6)+,R2          ; restaura R2
+          TST R0                ; se R0 <> 0
+          BNE __ALERTA_ESTOURO  ; vai indicar estouro
+          CCC V                 ; senao, desliga V
+          RTS R7                ; retorna ao progr. princ.
+__ALERTA_ESTOURO:
+          SCC V                 ; liga indicador: estouro
+          RTS R7                ; retorna ao ponto de chamada
+
+_S_LIMPA_VISOR_RAPIDA:
+          CLR 65500             ; limpa LED 00
+          CLR 65501             ; limpa LED 01
+          CLR 65502             ; limpa LED 02
+          CLR 65503             ; limpa LED 03
+          CLR 65504             ; limpa LED 04
+          CLR 65505             ; limpa LED 05
+          CLR 65506             ; limpa LED 06
+          CLR 65507             ; limpa LED 07
+          CLR 65508             ; limpa LED 08
+          CLR 65509             ; limpa LED 09
+          CLR 65510             ; limpa LED 10
+          CLR 65511             ; limpa LED 11
+          CLR 65512             ; limpa LED 12
+          CLR 65513             ; limpa LED 13
+          CLR 65514             ; limpa LED 14
+          CLR 65515             ; limpa LED 15
+          CLR 65516             ; limpa LED 16
+          CLR 65517             ; limpa LED 17
+          CLR 65518             ; limpa LED 18
+          CLR 65519             ; limpa LED 19
+          CLR 65520             ; limpa LED 20
+          CLR 65521             ; limpa LED 21
+          CLR 65522             ; limpa LED 22
+          CLR 65523             ; limpa LED 23
+          CLR 65524             ; limpa LED 24
+          CLR 65525             ; limpa LED 25
+          CLR 65526             ; limpa LED 26
+          CLR 65527             ; limpa LED 27
+          CLR 65528             ; limpa LED 28
+          CLR 65529             ; limpa LED 29
+          CLR 65530             ; limpa LED 30
+          CLR 65531             ; limpa LED 31
+          CLR 65532             ; limpa LED 32
+          CLR 65533             ; limpa LED 33
+          CLR 65534             ; limpa LED 34
+          CLR 65535             ; limpa LED 35
+          RTS R7                ; retorna ao ponto de chamada
+
+
+msg_dia: 	DAB 'Dia: ',0
+msg_mes: 	DAB 'Mes: ',0
+msg_invalidaMes:DAB 'Data do MES invalida ',0
+msg_invalidaDia:DAB 'Data do DIA invalida ',0
+msg_enter:	DAB 'Pressione ENTER para PERG novamente',0
+msg_ARIES: 	DAB 'Seu signo é ARIES - BOLSONARO',0  ;23
+msg_TOURO: 	DAB 'Seu signo é TOURO - ALCKIMIN',0  ;23
+msg_GEMEOS: 	DAB 'Seu signo é GEMEOS - TEMER',0 ;24
+msg_CANCER: 	DAB 'Seu signo é CANCER - DILMA',0 ;24
+msg_LEAO: 	DAB 'Seu signo é LEAO - AECIO',0   ;22
+msg_VIRGEM: 	DAB 'Seu signo é VIRGEM - FHC',0 ;24
+msg_LIBRA: 	DAB 'Seu signo é LIBRA - LULA',0  ;23
+msg_ESCORPIAO: 	DAB 'Seu signo é ESCORPIAO - SERRA',0 ;27
+msg_SAGITARIO: 	DAB 'Seu signo é SAGITARIO - ENEIAS',0 ;28
+msg_CAPRICORNIO:DAB 'Seu signo é CAPRICORNIO - CUNHA',0 ;29
+msg_AQUARIO: 	DAB 'Seu signo é AQUARIO - WILLYS',0 ;25
+msg_PEIXES: 	DAB 'Seu signo é PEIXES - MARINA',0 ;24
+
+dia:	 DB 0
+mes:	 DB 0

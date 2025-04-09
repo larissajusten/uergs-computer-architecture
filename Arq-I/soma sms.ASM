@@ -1,0 +1,8 @@
+	MOV AL,2
+	MOV BL,2
+a:	ADD AL,BL
+	INC CL
+	CMP AL,A
+	JZ b
+	JMP a
+b:	END

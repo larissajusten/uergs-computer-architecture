@@ -1,0 +1,22 @@
+	
+	CLO
+inicio:	MOV AL,[61]
+a:	MOV BL,[62]
+	MOV CL,[60]
+	ADD AL,BL
+	MOV DL, 62
+	INC DL
+	MOV BL,[DL]
+	DEC CL
+	JZ B
+	
+	DEC CL
+
+	ORG 60
+	DB 05 ;60
+	DB 15 ;61
+	DB 17 ;62
+	DB 16 ;63
+	DB 20 ;64
+	DB 02 ;65
+b:	END

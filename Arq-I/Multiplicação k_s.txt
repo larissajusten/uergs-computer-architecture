@@ -1,0 +1,23 @@
+Larissa Espelocin
+Arq. I
+
+0: load r0 28
+1: load r1 29
+2: load r3 30
+3: add r0 r0 r0
+4: sub r1 r1 r3
+5: sub r1 r1 r3 
+6: bzero 10
+7: bneg 10
+8:add r2 r2 r0
+9:branch 5
+10:halt
+
+
+
+
+
+28: n1 3
+29: n2 2
+30: 1
+31: 
